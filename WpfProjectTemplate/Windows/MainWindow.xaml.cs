@@ -5,18 +5,16 @@ using WpfProjectTemplate.Primitives;
 using WpfProjectTemplate.Primitives.Abstract;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
+using System;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace WpfProjectTemplate;
 
 public partial class MainWindow : Window
 {
-    private readonly MainViewModel _appSettingsAccessor;
-
-    public MainWindow(MainViewModel appSettingsAccessor)
+    public MainWindow()
     {
         InitializeComponent();
-        _appSettingsAccessor = appSettingsAccessor;
-        DataContext = _appSettingsAccessor;
     }
 }
 
@@ -24,8 +22,9 @@ public partial class MainWindow : Window
 public partial class MainViewModel
 {
     private readonly IThemeManager _themeManager;
-
+    private readonly IServiceProvider _services;
     private readonly IAppSettingsAccessor _appSettingsAccessor;
+
     public AppSettings AppSettings
     {
         get => _appSettingsAccessor.AppSettings;
@@ -36,10 +35,13 @@ public partial class MainViewModel
             (accessor, appsettings) => accessor.AppSettings = appsettings);
     }
 
-    public MainViewModel(IAppSettingsAccessor appSettingsAccessor, IThemeManager themeManager)
+    public MainViewModel(IAppSettingsAccessor appSettingsAccessor, 
+        IThemeManager themeManager,
+        IServiceProvider services)
     {
         _appSettingsAccessor = appSettingsAccessor;
         _themeManager = themeManager;
+        _services = services;
     }
 
     [RelayCommand]
@@ -52,6 +54,18 @@ public partial class MainViewModel
     public void BaseMode()
     {
         _themeManager.SetTheme(ThemeNames.Base);
+    }
+
+    [RelayCommand]
+    public void TestDialog()
+    {
+        //You should always call getservice to get a new insance of a dialog
+        //I guess you could have a DialogAccessor class that's responsible for doing this but meh... uwu
+        if (_services.GetService<IYesOrNoDialog>().AskQuestion("Testing...", "Choose one of the options"))
+            _services.GetService<IOkDialog>().ShowMessage("Results", "You pressed Yes!");
+        else
+            _services.GetService<IOkDialog>().ShowMessage("Results", "You pressed No! " +
+                "(more accurately you didn't press yes uwu but we consider that a no)");
     }
 
     [RelayCommand]

@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfProjectTemplate"
         mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
         Title="MainWindow" Height="450" Width="800">
-    <Grid x:Name="grid">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -35,6 +36,9 @@
             </Border>
             <Border Padding="5" HorizontalAlignment="Left">
                 <Button Content="Light Theme" Command="{Binding Path=BaseModeCommand}" Width="100"/>
+            </Border>
+            <Border Padding="5" HorizontalAlignment="Left">
+                <Button Content="Dialog Test" Command="{Binding Path=TestDialogCommand}" Width="100"/>
             </Border>
         </StackPanel>
     </Grid>

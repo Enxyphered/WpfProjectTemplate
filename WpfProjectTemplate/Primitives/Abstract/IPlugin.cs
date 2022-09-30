@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Windows;
-using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace WpfProjectTemplate.Primitives.Abstract;
 
+//Todo: Test a custom plugin...
+//Never tested it but I assume it should technically work hehe uwu
 public interface IPlugin
 {
     public IConfigurationBuilder AddConfiguration(IConfigurationBuilder configBuilder);

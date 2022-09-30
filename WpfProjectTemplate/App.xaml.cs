@@ -7,6 +7,7 @@ using WpfProjectTemplate.Primitives;
 using Microsoft.Extensions.Configuration;
 using WpfProjectTemplate.Primitives.Abstract;
 using Microsoft.Extensions.DependencyInjection;
+using WpfProjectTemplate.Windows;
 
 namespace WpfProjectTemplate;
 
@@ -41,7 +42,10 @@ public partial class App : Application
             Source = new Uri("pack://application:,,,/WpfProjectTemplate;Component/Themes/DarkTheme.xaml")
         });
 
-        Services.GetService<MainWindow>().Show();
+        var mainWindow = Services.GetService<MainWindow>();
+        var mainViewModel = Services.GetService<MainViewModel>();
+        mainWindow.DataContext = mainViewModel;
+        mainWindow.Show();
     }
 
     private IConfigurationBuilder AddConfiguration(IConfigurationBuilder configBuilder)
@@ -57,12 +61,18 @@ public partial class App : Application
 
     private IServiceCollection ConfigureServices(IServiceCollection collection, IConfiguration configuration)
         => collection
-            .Configure<AppSettings>(configuration)
-            .AddTransient<AppSettings>()
-            .AddTransient<MainViewModel>()
-            .AddSingleton<IAppSettingsAccessor, AppSettingsAccessor>()
-            .AddSingleton<IThemeManager, ThemeManager>()
-            .AddSingleton<MainWindow>();
+        .Configure<AppSettings>(configuration)
+        .AddTransient<AppSettings>()
+        .AddTransient<MainViewModel>()
+        .AddTransient<OkDialogViewModel>()
+        .AddTransient<YesOrNoDialogViewModel>()
+        .AddTransient<OkDialogWindow>()
+        .AddTransient<YesOrNoDialogWindow>()
+        .AddTransient<IOkDialog, OkDialog>()
+        .AddTransient<IYesOrNoDialog, YesOrNoDialog>()
+        .AddSingleton<IAppSettingsAccessor, AppSettingsAccessor>()
+        .AddSingleton<IThemeManager, ThemeManager>()
+        .AddSingleton<MainWindow>();
 
     private IServiceCollection ConfigurePluginServices(IServiceCollection collection, 
         IConfiguration configuration, 
