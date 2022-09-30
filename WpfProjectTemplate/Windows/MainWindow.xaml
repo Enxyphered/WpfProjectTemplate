@@ -1,0 +1,41 @@
+﻿<Window x:Class="WpfProjectTemplate.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfProjectTemplate"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid x:Name="grid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border BorderThickness="5">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="Connection String:" Margin="0 0 5 0"/>
+                <TextBox Text="{Binding Path=AppSettings.ConnectionString}" Grid.Column="1"/>
+            </Grid>
+        </Border>
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <Border Padding="5" HorizontalAlignment="Left">
+                <Button Content="Save" Command="{Binding Path=SaveCommand}" Width="100"/>
+            </Border>
+            <Border Padding="5" HorizontalAlignment="Left">
+                <Button Content="Dark Theme" Command="{Binding Path=DarkModeCommand}" Width="100"/>
+            </Border>
+            <Border Padding="5" HorizontalAlignment="Left">
+                <Button Content="Light Theme" Command="{Binding Path=BaseModeCommand}" Width="100"/>
+            </Border>
+        </StackPanel>
+    </Grid>
+</Window>
